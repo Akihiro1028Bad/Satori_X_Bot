@@ -1,7 +1,6 @@
 # 必要なライブラリをインポート
 from flask import Flask
 import tweepy
-from apscheduler.schedulers.blocking import BlockingScheduler
 from openai import ChatCompletion
 import openai
 import os
@@ -73,13 +72,13 @@ def generate_tweet_with_gpt4o():
         次の指示に従って、さとり構文でぶっとんだ面白い下品な下ネタ文章を書いてください：
 
 1. **特定の目的やニーズ**を持つ人を明示してください（ここはユーザにニーズを聞いてください）。
-2. その人たちが取るべき**ぶっ飛んだ下品な具体的な行動**を提案してください。（具体的に詳細にすること。絶対にありえないだろう思うぶっ飛んだ下品な下ネタを提案すること）
-3. **ぶっ飛んだ下品な具体的な行動**で得られる**ポジティブな結果**を提案してください。(爆笑、笑い系は除いて具体的なメリットを提示)
-4. **別の特定の目的やニーズを持つ人**を提案（ユーザに聞いたニーズに関連するものにすること）（文脈が不自然にならないように具体的にすること）
-5. **別の特定の目的やニーズを持つ人が得られる**ポジティブな結果**を説明してください。
+2. その人たちが取るべき**ぶっ飛んだ下品な具体的な行動**を提案してください。（具体的に詳細にすること。絶対にありえないだろう思うぶっ飛んだ下品な下ネタを提案すること。下品にすることにフォーカスすること。）
+3. **ぶっ飛んだ下品な具体的な行動**で得られる**ポジティブな結果**を提案してください。(爆笑、笑い系は除いて具体的に何が得れるのかを提示)
+4. **似ている特定の目的やニーズを持つ人**を提案（ユーザに聞いたニーズに関連するものにすること）（文脈が不自然にならないようにすること）
+5. **似ている特定の目的やニーズを持つ人が得られる**ポジティブな結果**を説明してください。
 6. **ポジティブな結果や利益**がどのくらい増加するか具体的な数字を挙げてください。（～％）
 
-「{user_message}なら～[ぶっ飛んだ下品な具体的な行動]+[自然な文末]！！ + [ポジティブな結果] + [自然な文末]！！+ [別の特定の目的やニーズを持つ人] + [自然な助詞] + [別の特定の目的やニーズを持つ人が得られるポジティブな結果] +[自然な文末]！！
+「{user_message}なら～[ぶっ飛んだ下品な具体的な行動]+[自然な文末]！！ + [ポジティブな結果] + [自然な文末]！！+ [似ている特定の目的やニーズを持つ人] + には + [似ている特定の目的やニーズを持つ人が得られるポジティブな結果] +[自然な文末]！！
 
 上記の形で出力してください。
 
@@ -117,15 +116,15 @@ def generate_tweet_with_gpt4o():
         
 
 def tweet():
-    #print("tweet()が呼び出されました")
-    #client = tweepy.Client(
-        #consumer_key        = twitter_keys["consumer_key"],
-        #consumer_secret     = twitter_keys["consumer_secret"],
-        #access_token        = twitter_keys["access_token"],
-        #access_token_secret = twitter_keys["access_token_secret"],
-    #)
+    print("tweet()が呼び出されました")
+    client = tweepy.Client(
+        consumer_key        = twitter_keys["consumer_key"],
+        consumer_secret     = twitter_keys["consumer_secret"],
+        access_token        = twitter_keys["access_token"],
+        access_token_secret = twitter_keys["access_token_secret"],
+    )
     text = generate_tweet_with_gpt4o()
-    #client.create_tweet(text = text)
+    client.create_tweet(text = text)
     print(f"ツイート内容：{text}")
     print("tweet()の処理が完了しました")
     return text
