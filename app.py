@@ -5,6 +5,10 @@ from openai import ChatCompletion
 import openai
 import os
 from dotenv import load_dotenv
+import schedule
+# 必要なライブラリをインポート
+import time
+# ... existing code ...
 
 # Flaskアプリケーションのインスタンスを作成
 app = Flask(__name__)
@@ -129,6 +133,17 @@ def tweet():
     print("tweet()の処理が完了しました")
     return text
 
+# 毎時00分にtweet関数を実行するスケジュールを設定
+schedule.every().hour.at(":05").do(tweet)
+
+def run_scheduler():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
 if __name__ == "__main__":
     # Flaskアプリケーションを実行
+    from threading import Thread
+    scheduler_thread = Thread(target=run_scheduler)
+    scheduler_thread.start()
     app.run()
