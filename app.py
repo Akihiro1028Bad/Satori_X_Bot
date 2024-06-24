@@ -121,14 +121,14 @@ def generate_tweet_with_gpt4o():
 
 def tweet():
     print("tweet()が呼び出されました")
-    #client = tweepy.Client(
-        #consumer_key        = twitter_keys["consumer_key"],
-        #consumer_secret     = twitter_keys["consumer_secret"],
-        #access_token        = twitter_keys["access_token"],
-        #access_token_secret = twitter_keys["access_token_secret"],
-    #)
+    client = tweepy.Client(
+        consumer_key        = twitter_keys["consumer_key"],
+        consumer_secret     = twitter_keys["consumer_secret"],
+        access_token        = twitter_keys["access_token"],
+        access_token_secret = twitter_keys["access_token_secret"],
+    )
     text = generate_tweet_with_gpt4o()
-    #client.create_tweet(text = text)
+    client.create_tweet(text = text)
     print(f"ツイート内容：{text}")
     print("tweet()の処理が完了しました")
     return text
