@@ -35,4 +35,3 @@ Werkzeug==3.0.3
 python-dotenv==0.19.1
 gunicorn
 schedule
-time
