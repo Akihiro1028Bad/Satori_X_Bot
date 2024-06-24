@@ -134,7 +134,7 @@ def tweet():
     return text
 
 # 毎時00分にtweet関数を実行するスケジュールを設定
-schedule.every().hour.at(":05").do(tweet)
+schedule.every().hour.at(":07").do(tweet)
 
 def run_scheduler():
     while True:
