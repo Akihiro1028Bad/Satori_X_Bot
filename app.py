@@ -82,9 +82,9 @@ def generate_tweet_with_gpt4o():
 5. **似ている特定の目的やニーズを持つ人が得られる**ポジティブな結果**を説明してください。
 6. **ポジティブな結果や利益**がどのくらい増加するか具体的な数字を挙げてください。（～％）
 
-「{user_message}なら～[ぶっ飛んだ下品な具体的な行動]+[自然な文末]！！ + [ポジティブな結果] + [自然な文末]！！+ [似ている特定の目的やニーズを持つ人] + には + [似ている特定の目的やニーズを持つ人が得られるポジティブな結果] +[自然な文末]！！
+「{user_message}なら～[ぶっ飛んだ下品な具体的な行動]+といい + 。 + [ポジティブな結果] + [自然な文末]+。+ [似ている特定の目的やニーズを持つ人] + にもおすすめ。 + [似ている特定の目的やニーズを持つ人が得られるポジティブな結果] +[自然な文末] +。
 
-上記の形で出力してください。
+必ず上記の形で出力してください。（語尾に注意）
 
 []内は変数です。実際の回答に[]は出力しなくていいです。
 
@@ -113,7 +113,7 @@ def generate_tweet_with_gpt4o():
         shimo_mes = response['choices'][0]['message']['content']
         print(f"判定前:{shimo_mes}")
         if("申し" not in shimo_mes and len(shimo_mes) <= 140 and "以下に" not in shimo_mes and "目的ニーズ" not in shimo_mes and "ニーズ" not in shimo_mes and "ごめん" not in shimo_mes
-           and "自然な" not in shimo_mes and "+" not in shimo_mes and user_message in shimo_mes):
+           and "自然な" not in shimo_mes and "+" not in shimo_mes and "ポジティブ" not in shimo_mes and user_message in shimo_mes):
             break
            
     return shimo_mes
@@ -121,29 +121,20 @@ def generate_tweet_with_gpt4o():
 
 def tweet():
     print("tweet()が呼び出されました")
-    client = tweepy.Client(
-        consumer_key        = twitter_keys["consumer_key"],
-        consumer_secret     = twitter_keys["consumer_secret"],
-        access_token        = twitter_keys["access_token"],
-        access_token_secret = twitter_keys["access_token_secret"],
-    )
+    #client = tweepy.Client(
+        #consumer_key        = twitter_keys["consumer_key"],
+        #consumer_secret     = twitter_keys["consumer_secret"],
+        #access_token        = twitter_keys["access_token"],
+        #access_token_secret = twitter_keys["access_token_secret"],
+    #)
     text = generate_tweet_with_gpt4o()
-    client.create_tweet(text = text)
+    #client.create_tweet(text = text)
     print(f"ツイート内容：{text}")
     print("tweet()の処理が完了しました")
     return text
 
-# 毎時00分にtweet関数を実行するスケジュールを設定
-schedule.every().hour.at(":10").do(tweet)
-
-def run_scheduler():
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
 
 if __name__ == "__main__":
     # Flaskアプリケーションを実行
-    from threading import Thread
-    scheduler_thread = Thread(target=run_scheduler)
-    scheduler_thread.start()
+  
     app.run()
